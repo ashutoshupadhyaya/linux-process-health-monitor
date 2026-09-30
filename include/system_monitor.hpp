@@ -5,6 +5,7 @@ class SystemMonitor
 {
 public:
     double getCpuUsage();
+    double getMemoryUsage();
 };
 
 #endif
