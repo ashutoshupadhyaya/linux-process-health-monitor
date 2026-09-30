@@ -132,3 +132,32 @@ double SystemMonitor::getMemoryUsage()
     return static_cast<double>(memTotal - memAvailable)
            / memTotal * 100.0;
 }
+#include <sys/statvfs.h>
+
+double SystemMonitor::getDiskUsage()
+{
+    struct statvfs filesystem;
+
+    if (statvfs("/", &filesystem) != 0)
+    {
+        return 0.0;
+    }
+
+    unsigned long long totalSpace =
+        static_cast<unsigned long long>(filesystem.f_blocks) *
+        filesystem.f_frsize;
+
+    unsigned long long availableSpace =
+        static_cast<unsigned long long>(filesystem.f_bavail) *
+        filesystem.f_frsize;
+
+    if (totalSpace == 0)
+    {
+        return 0.0;
+    }
+
+    unsigned long long usedSpace = totalSpace - availableSpace;
+
+    return static_cast<double>(usedSpace) /
+           totalSpace * 100.0;
+}

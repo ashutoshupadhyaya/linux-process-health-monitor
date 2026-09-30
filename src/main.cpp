@@ -15,5 +15,9 @@ int main()
               << monitor.getMemoryUsage()
               << "%" << std::endl;
 
+    std::cout << "Disk Usage: "
+              << monitor.getDiskUsage()
+              << "%" << std::endl;
+
     return 0;
 }
