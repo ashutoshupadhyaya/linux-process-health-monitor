@@ -1,6 +1,7 @@
 #include "process_monitor.hpp"
 #include <iostream>
 #include "system_monitor.hpp"
+#include "health_analyzer.hpp"
 
 int main()
 {
@@ -22,7 +23,7 @@ int main()
               << "%" << std::endl;
 
     auto processes = processMonitor.getProcesses();
-
+    HealthAnalyzer analyzer;
     std::cout << "\nRunning Processes:\n";
 
     int count = 0;
@@ -37,7 +38,24 @@ int main()
               << " | CPU: " << process.cpuUsage << "%"
               << std::endl;
         count++;
+HealthResult result = analyzer.analyzeProcess(process);
 
+std::cout << "   Health: ";
+
+if (result.status == HealthStatus::NORMAL)
+{
+    std::cout << "NORMAL";
+}
+else if (result.status == HealthStatus::WARNING)
+{
+    std::cout << "WARNING";
+}
+else
+{
+    std::cout << "CRITICAL";
+}
+
+std::cout << " - " << result.reason << std::endl;
         if (count >= 10)
         {
             break;

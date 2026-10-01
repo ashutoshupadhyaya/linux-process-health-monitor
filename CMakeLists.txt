@@ -11,4 +11,6 @@ add_executable(process_health_monitor
     src/main.cpp
     src/monitoring/system_monitor.cpp
     src/monitoring/process_monitor.cpp
+    src/configuration/configuration_manager.cpp
+    src/analysis/health_analyzer.cpp
 )
