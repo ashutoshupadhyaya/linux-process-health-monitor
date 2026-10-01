@@ -1,9 +1,11 @@
+#include "process_monitor.hpp"
 #include <iostream>
 #include "system_monitor.hpp"
 
 int main()
 {
     SystemMonitor monitor;
+    ProcessMonitor processMonitor;
 
     std::cout << "Linux Process Health Monitor started." << std::endl;
 
@@ -18,6 +20,29 @@ int main()
     std::cout << "Disk Usage: "
               << monitor.getDiskUsage()
               << "%" << std::endl;
+
+    auto processes = processMonitor.getProcesses();
+
+    std::cout << "\nRunning Processes:\n";
+
+    int count = 0;
+
+    for (const auto& process : processes)
+{
+    std::cout << "PID: " << process.pid
+              << " | PPID: " << process.ppid
+              << " | Name: " << process.name
+              << " | State: " << process.state
+              << " | Memory: " << process.memoryKb << " kB"
+              << " | CPU: " << process.cpuUsage << "%"
+              << std::endl;
+        count++;
+
+        if (count >= 10)
+        {
+            break;
+        }
+    }
 
     return 0;
 }

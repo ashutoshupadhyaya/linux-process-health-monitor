@@ -10,4 +10,5 @@ include_directories(include)
 add_executable(process_health_monitor
     src/main.cpp
     src/monitoring/system_monitor.cpp
+    src/monitoring/process_monitor.cpp
 )
