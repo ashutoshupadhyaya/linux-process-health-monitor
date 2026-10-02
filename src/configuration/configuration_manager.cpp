@@ -3,9 +3,11 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <exception>
 
 ConfigurationManager::ConfigurationManager()
 {
+    // Default configuration values
     cpuWarningThreshold = 70.0;
     cpuCriticalThreshold = 90.0;
 
@@ -35,50 +37,88 @@ ConfigurationManager::ConfigurationManager()
         {
             if (key == "CPU_WARNING")
             {
-                cpuWarningThreshold = std::stod(value);
+                try
+                {
+                    cpuWarningThreshold = std::stod(value);
+                }
+                catch (const std::exception&)
+                {
+                    // Keep the default value
+                }
             }
             else if (key == "CPU_CRITICAL")
             {
-                cpuCriticalThreshold = std::stod(value);
+                try
+                {
+                    cpuCriticalThreshold = std::stod(value);
+                }
+                catch (const std::exception&)
+                {
+                    // Keep the default value
+                }
             }
             else if (key == "MEMORY_WARNING")
             {
-                memoryWarningThreshold = std::stoll(value);
+                try
+                {
+                    memoryWarningThreshold = std::stoll(value);
+                }
+                catch (const std::exception&)
+                {
+                    // Keep the default value
+                }
             }
             else if (key == "MEMORY_CRITICAL")
             {
-                memoryCriticalThreshold = std::stoll(value);
+                try
+                {
+                    memoryCriticalThreshold = std::stoll(value);
+                }
+                catch (const std::exception&)
+                {
+                    // Keep the default value
+                }
             }
             else if (key == "MONITOR_INTERVAL_MS")
             {
-                monitoringIntervalMs = std::stoi(value);
+                try
+                {
+                    monitoringIntervalMs = std::stoi(value);
+                }
+                catch (const std::exception&)
+                {
+                    // Keep the default value
+                }
             }
         }
     }
-if (cpuWarningThreshold < 0.0)
-{
-    cpuWarningThreshold = 0.0;
-}
 
-if (cpuCriticalThreshold <= cpuWarningThreshold)
-{
-    cpuCriticalThreshold = cpuWarningThreshold + 20.0;
-}
+    // Validate configuration values
 
-if (memoryWarningThreshold < 0)
-{
-    memoryWarningThreshold = 0;
-}
+    if (cpuWarningThreshold < 0.0)
+    {
+        cpuWarningThreshold = 0.0;
+    }
 
-if (memoryCriticalThreshold <= memoryWarningThreshold)
-{
-    memoryCriticalThreshold = memoryWarningThreshold + 250000;
-}
+    if (cpuCriticalThreshold <= cpuWarningThreshold)
+    {
+        cpuCriticalThreshold = cpuWarningThreshold + 20.0;
+    }
 
-if (monitoringIntervalMs <= 0)
-{
-    monitoringIntervalMs = 100;
-}
+    if (memoryWarningThreshold < 0)
+    {
+        memoryWarningThreshold = 0;
+    }
+
+    if (memoryCriticalThreshold <= memoryWarningThreshold)
+    {
+        memoryCriticalThreshold = memoryWarningThreshold + 250000;
+    }
+
+    if (monitoringIntervalMs <= 0)
+    {
+        monitoringIntervalMs = 100;
+    }
 }
 
 double ConfigurationManager::getCpuWarningThreshold() const
