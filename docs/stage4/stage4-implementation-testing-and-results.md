@@ -640,7 +640,7 @@ SignalManager
 DeviceInterfaceManager
 Linux Character Device Driver
 
-These components form the integrated response, recovery, and device-driver layer of the Linux Process Health Monitoring and Automated Recovery System.
+These components are primarily part of the response, recovery, and device-driver portion of the project.
 
 After these components are developed, they will be integrated with the monitoring and analysis components implemented in the current Stage 4 prototype.
 
